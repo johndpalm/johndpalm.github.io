@@ -1,0 +1,85 @@
+name: $(Build.BuildId)
+
+trigger:
+- development
+
+pool:
+  vmImage: 'Ubuntu-16.04'
+
+variables:
+  gh_user: $(GitHubUserName)
+  gh_repo: $(GitHubRepoName)
+  gh_pass: $(GitHubPAT) # Create GitHub PAT here: https://github.com/settings/tokens
+  gh_email: $(GitHubEmail)
+  gh_auth_header: $(echo -n "${gh_user}:$(GitHubPAT)" | base64);
+
+steps:
+- checkout: none
+  persistCredentials: false
+
+- script: git clone https://$(GitHubPAT)@github.com/$(gh_user)/$(gh_repo).git .
+  workingDirectory: $(Build.StagingDirectory)
+  displayName: "[Git] Clone GitHub Pages Repository"
+
+- script: |
+    git config user.email $(gh_email)
+    git config user.name $(gh_user)
+  workingDirectory: $(Build.StagingDirectory)
+  displayName: '[Git] Configure User'
+
+- task: UseRubyVersion@0 
+  displayName: '[Ruby] Use Ruby >= 2.5'
+
+- script: 'git checkout development'
+  workingDirectory: $(Build.StagingDirectory)
+  displayName: '[Git] Switch to development branch for $(Build.StagingDirectory)'
+
+- script: 'mkdir /tmp/source; cp -R * /tmp/source; rm -rf /tmp/source/.git'
+  workingDirectory: $(Build.StagingDirectory)
+  displayName: '[Script] Copy file from development branch to /tmp/source'
+
+- script: 'git checkout master'
+  workingDirectory: $(Build.StagingDirectory)
+  displayName: '[Git] Switch to master branch for $(Build.StagingDirectory)'
+
+- script: 'gem install bundler'
+  workingDirectory: /tmp/source
+  displayName: '[Jekyll] Install Bundler'
+
+- script: |
+    ls -la;
+    bundle install
+  workingDirectory: /tmp/source
+  displayName: '[Jekyll] Install Jekyll and Dependencies'
+
+- script: |
+    mkdir /tmp/build;
+    bundle exec jekyll build -d /tmp/build;
+  workingDirectory: /tmp/source
+  displayName: '[Jekyll] Build Jekyll Static Site from /tmp/source to /tmp/build'
+
+- script: |
+    cp -R $(Build.StagingDirectory)/.git /tmp/build;
+    rm -rf $(Build.StagingDirectory)/*;
+    cp -R /tmp/build/* $(Build.StagingDirectory);
+  workingDirectory: /tmp/build
+  displayName: '[Script] Remove all files in $(Build.StagingDirectory) except .git/ and add files from /tmp/build'
+
+- script: |
+    git add --all;
+    git commit -m"Pipelines-Bot: Updated site via $(Build.SourceVersion)";
+  workingDirectory: $(Build.StagingDirectory)
+  displayName: '[Git] Creating commit'
+
+- script: |
+    git push origin master;
+  workingDirectory: $(Build.StagingDirectory)
+  displayName: '[Git] Push changes to remote'
+
+- script: |
+    curl https://api.github.com/repos/$(gh_user)/$(gh_repo)/pages/builds/latest -i -v \
+    -X GET \
+    -H "Accept: application/vnd.github.mister-fantastic-preview+json" \
+    -H "Authorization: Basic $(gh_auth_header)"
+  displayName: '[GitHub] Get Page Build Status'
+  
