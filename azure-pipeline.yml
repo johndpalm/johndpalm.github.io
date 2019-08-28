@@ -1,7 +1,7 @@
 name: $(Build.BuildId)
 
 trigger:
-- development
+- master
 
 pool: 
   vmImage: 'Ubuntu-16.04'
