@@ -61,7 +61,7 @@ steps:
 
 - script: |
     git add --all;
-    git commit -m"Pipelines-Bot: Updated site via $(Build.SourceVersion)";
+    git commit -m"Azure Pipelines: Updated site via $(Build.SourceVersion)";
   workingDirectory: $(Build.StagingDirectory)
   displayName: '[Git] Creating commit'
 
