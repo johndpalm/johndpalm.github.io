@@ -3,7 +3,7 @@ name: $(Build.BuildId)
 trigger:
 - development
 
-pool:
+pool: 
   vmImage: 'Ubuntu-16.04'
 
 variables:

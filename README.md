@@ -1,6 +1,6 @@
 # johndpalm.github.io
 
-This is the source for this site: http://johndpalm.com
+This is the source for this site: https://johndpalm.com
 
 This site is hosted on [GitHub Pages](https://pages.github.com/) and uses [Jekyll](https://jekyllrb.com) to generate the pages.
 
