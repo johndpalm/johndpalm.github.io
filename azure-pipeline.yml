@@ -14,33 +14,13 @@ variables:
   gh_auth_header: $(echo -n "${gh_user}:$(GitHubPAT)" | base64);
 
 steps:
-- checkout: none
-  persistCredentials: false
-
-- script: git clone https://$(GitHubPAT)@github.com/$(gh_user)/$(gh_repo).git .
-  workingDirectory: $(Build.StagingDirectory)
-  displayName: "[Git] Clone GitHub Pages Repository"
-
-- script: |
-    git config user.email $(gh_email)
-    git config user.name $(gh_user)
-  workingDirectory: $(Build.StagingDirectory)
-  displayName: '[Git] Configure User'
 
 - task: UseRubyVersion@0 
   displayName: '[Ruby] Use Ruby >= 2.5'
 
-- script: 'git checkout development'
-  workingDirectory: $(Build.StagingDirectory)
-  displayName: '[Git] Switch to development branch for $(Build.StagingDirectory)'
-
 - script: 'mkdir /tmp/source; cp -R * /tmp/source; rm -rf /tmp/source/.git'
-  workingDirectory: $(Build.StagingDirectory)
-  displayName: '[Script] Copy file from development branch to /tmp/source'
-
-- script: 'git checkout master'
-  workingDirectory: $(Build.StagingDirectory)
-  displayName: '[Git] Switch to master branch for $(Build.StagingDirectory)'
+  workingDirectory: $(Build.Repository.LocalPath)
+  displayName: '[Script] Copy file from Build.Repository.LocalPath branch to /tmp/source '
 
 - script: 'gem install bundler'
   workingDirectory: /tmp/source
@@ -57,6 +37,20 @@ steps:
     bundle exec jekyll build -d /tmp/build;
   workingDirectory: /tmp/source
   displayName: '[Jekyll] Build Jekyll Static Site from /tmp/source to /tmp/build'
+
+- script: git clone https://$(GitHubPAT)@github.com/$(gh_user)/$(gh_repo).git .
+  workingDirectory: $(Build.StagingDirectory)
+  displayName: "[Git] Clone GitHub Pages Repository"
+
+- script: |
+    git config user.email $(gh_email)
+    git config user.name $(gh_user)
+  workingDirectory: $(Build.StagingDirectory)
+  displayName: '[Git] Configure User'
+
+- script: 'git checkout master'
+  workingDirectory: $(Build.StagingDirectory)
+  displayName: '[Git] Switch to master branch for $(Build.StagingDirectory)'
 
 - script: |
     cp -R $(Build.StagingDirectory)/.git /tmp/build;
