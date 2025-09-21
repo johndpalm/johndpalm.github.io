@@ -1,8 +1,10 @@
 ---
-# Only the main Sass file needs front matter (the dashes are enough)
 ---
 
+@use "sass:color";
 @import "minima";
+
+// Only the main Sass file needs front matter (the dashes are enough)
 
 // Developer-focused enhancements
 .developer-intro {
@@ -68,7 +70,7 @@
     transition: background-color 0.3s ease;
     
     &:hover {
-      background: darken($brand-color, 10%);
+      background: color.adjust($brand-color, $lightness: -10%);
       color: white;
     }
   }
