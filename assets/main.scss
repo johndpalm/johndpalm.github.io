@@ -140,3 +140,114 @@ pre, code {
     grid-template-columns: 1fr;
   }
 }
+
+// System theme support - follows user's OS preference
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+  }
+  
+  .site-header {
+    background-color: #2d2d2d;
+    border-bottom: 1px solid #444;
+    
+    .site-title {
+      color: #e0e0e0;
+      
+      &:hover {
+        color: #66b3ff;
+      }
+    }
+    
+    .site-nav {
+      .page-link {
+        color: #e0e0e0;
+        
+        &:hover {
+          color: #66b3ff;
+        }
+      }
+    }
+  }
+  
+  .site-footer {
+    background-color: #2d2d2d !important;
+    border-top: 1px solid #444 !important;
+    color: #ccc;
+    
+    a {
+      color: #66b3ff;
+      
+      &:hover {
+        color: color.adjust(#66b3ff, $lightness: 15%);
+      }
+    }
+  }
+  
+  .tech-grid .tech-card {
+    background: #2d2d2d;
+    border: 1px solid #444;
+    
+    h3 {
+      color: #66b3ff;
+    }
+  }
+  
+  .project-links a {
+    background: #66b3ff;
+    
+    &:hover {
+      background: color.adjust(#66b3ff, $lightness: 15%);
+    }
+  }
+  
+  // Code blocks
+  pre, code {
+    background-color: #2d2d2d;
+    color: #f8f8f2;
+    border: 1px solid #444;
+  }
+  
+  .highlight pre {
+    border: 1px solid #444;
+  }
+  
+  // Post content
+  .post-content {
+    h1, h2, h3, h4, h5, h6 {
+      color: #e0e0e0;
+    }
+    
+    blockquote {
+      border-left: 4px solid #66b3ff;
+      background-color: #2d2d2d;
+      color: #ccc;
+    }
+  }
+  
+  // Tables
+  table {
+    background-color: #2d2d2d;
+    
+    th, td {
+      border: 1px solid #444;
+      color: #e0e0e0;
+    }
+    
+    th {
+      background-color: #1a1a1a;
+    }
+  }
+  
+  // Forms
+  input, textarea, select {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+    border: 1px solid #444;
+    
+    &:focus {
+      border-color: #66b3ff;
+    }
+  }
+}
