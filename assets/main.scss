@@ -3,3 +3,100 @@
 ---
 
 @import "minima";
+
+// Developer-focused enhancements
+.developer-intro {
+  text-align: center;
+  margin: 2rem 0;
+  
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: $brand-color;
+  }
+  
+  .tagline {
+    font-size: 1.2rem;
+    color: $grey-color-dark;
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+  
+  .tech-card {
+    padding: 1.5rem;
+    border: 1px solid $grey-color-light;
+    border-radius: 8px;
+    background: #fafafa;
+    
+    h3 {
+      margin-top: 0;
+      color: $brand-color;
+      font-size: 1.1rem;
+    }
+    
+    ul {
+      margin-bottom: 0;
+      
+      li {
+        margin-bottom: 0.25rem;
+      }
+    }
+  }
+}
+
+.project-links {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 2rem 0;
+  
+  a {
+    padding: 0.75rem 1.5rem;
+    background: $brand-color;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    
+    &:hover {
+      background: darken($brand-color, 10%);
+      color: white;
+    }
+  }
+}
+
+// Code block enhancements
+pre, code {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+.highlight pre {
+  border-radius: 6px;
+  border: 1px solid $grey-color-light;
+}
+
+// Responsive improvements
+@media (max-width: 768px) {
+  .developer-intro h1 {
+    font-size: 2rem;
+  }
+  
+  .project-links {
+    flex-direction: column;
+    align-items: center;
+    
+    a {
+      text-align: center;
+      min-width: 200px;
+    }
+  }
+}
