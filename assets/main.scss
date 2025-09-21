@@ -102,3 +102,41 @@ pre, code {
     }
   }
 }
+
+// Footer polish
+.site-footer {
+  margin-top: 3rem;
+  padding: 2rem 0;
+  border-top: 1px solid $grey-color-light;
+  background: #fafafa;
+  color: $grey-color-dark;
+
+  a {
+    color: $brand-color;
+    text-decoration: none;
+    &:hover {
+      color: color.adjust($brand-color, $lightness: -10%);
+      text-decoration: underline;
+    }
+  }
+
+  .footer-col-wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .site-footer-credits {
+    margin-top: 1rem;
+    color: $grey-color;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .site-footer .footer-col-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
