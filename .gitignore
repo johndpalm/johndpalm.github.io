@@ -1,5 +1,36 @@
-_site
-.sass-cache
-.jekyll-cache
+# Jekyll build output
+_site/
+
+# Jekyll cache files
+.sass-cache/
+.jekyll-cache/
 .jekyll-metadata
-vendor
+
+# Bundler
+vendor/
+.bundle/
+Gemfile.lock
+
+# Ruby
+*.gem
+.rbenv-version
+.ruby-version
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*~

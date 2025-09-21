@@ -1,0 +1,35 @@
+# Site settings
+title: John's Blog
+email: john@johndpalm.com
+description: "Like me, this blog is a work-in-progress."
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://johndpalm.com" # the base hostname & protocol for your site
+twitter_username: johndpalm
+github_username: johndpalm
+
+# Build settings
+markdown: kramdown
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Minima date format
+minima:
+  date_format: "%b %d, %Y"
+
+# Exclude from processing
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - azure-pipeline.yml
+  - README.md
+  - LICENSE

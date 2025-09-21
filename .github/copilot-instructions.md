@@ -2,85 +2,87 @@
 
 ## Project Overview
 
-This is a Jekyll-based personal blog that uses a **unique hybrid CI/CD approach**:
-- **Source content** (drafts) stored in private Azure Repos
-- **Static site generation** via Azure Pipelines using Jekyll
+This is a Jekyll-based personal blog using **GitHub Actions for CI/CD**:
+- **Source content** stored directly in this GitHub repository
+- **Static site generation** via GitHub Actions using Jekyll
 - **Hosting** on GitHub Pages at `johndpalm.github.io`
 
 ## Architecture & Key Insight
 
-**Critical Understanding**: This repo contains **generated output**, not source files. The actual Jekyll source (markdown posts, layouts, configs) lives in a private Azure Repos repository. This repo only contains the compiled HTML/CSS/XML that Jekyll produces.
+**Critical Understanding**: This repo contains both Jekyll source files AND serves as the deployment target. GitHub Actions builds the Jekyll site and deploys it automatically on every push to master.
 
 ### Repository Structure
 ```
-├── index.html          # Generated Jekyll homepage
-├── feed.xml           # Generated RSS feed
-├── 404.html           # Generated 404 page
-├── YYYY/MM/DD/        # Generated blog post pages (date-based URLs)
-├── about/             # Generated about page
-├── privacy/           # Generated privacy page
-├── assets/            # Generated CSS and static assets
-└── azure-pipeline.yml # CI/CD configuration (only real source file)
+├── _posts/            # Jekyll blog posts (markdown source)
+├── _config.yml        # Jekyll configuration
+├── Gemfile            # Ruby dependencies
+├── index.md           # Homepage (Jekyll source)
+├── about.md           # About page (Jekyll source)
+├── privacy.md         # Privacy page (Jekyll source)
+├── assets/            # CSS, images, and static files
+├── _site/             # Generated output (ignored in git)
+└── .github/workflows/ # GitHub Actions CI/CD
 ```
 
-## CI/CD Workflow (Azure Pipelines → GitHub Pages)
+## CI/CD Workflow (GitHub Actions)
 
-The deployment process in `azure-pipeline.yml` follows this pattern:
+The deployment process in `.github/workflows/jekyll.yml` follows this pattern:
 
-1. **Trigger**: Commits to `master` branch in private Azure Repos
-2. **Build Environment**: Ubuntu with Ruby 2.5+
+1. **Trigger**: Commits to `master` branch or manual workflow dispatch
+2. **Build Environment**: Ubuntu with Ruby 3.1+
 3. **Jekyll Build**: 
-   - Copies source to `/tmp/source`
-   - Installs bundler and dependencies
-   - Runs `bundle exec jekyll build -d /tmp/build`
-4. **GitHub Deployment**:
-   - Clones this GitHub repo to staging
-   - Replaces all content (except `.git/`) with Jekyll output
-   - Commits and pushes to trigger GitHub Pages rebuild
+   - Checks out repository
+   - Installs Ruby and runs `bundle install`
+   - Runs `bundle exec jekyll build --baseurl`
+4. **GitHub Pages Deployment**:
+   - Uploads build artifact to GitHub Pages
+   - Automatically deploys to live site
 
-### Required Variables
-- `GitHubUserName`, `GitHubRepoName`, `GitHubPAT`, `GitHubEmail`
-- `TenantId`, `ProjectName` (for Azure Repos integration)
+### Environment Variables
+- All configuration handled via `_config.yml`
+- No external secrets required
 
 ## Development Guidelines
 
 ### Content Creation
-- **Never edit HTML files directly** - they're generated and will be overwritten
-- **Blog posts** should be created in the private Azure Repos as markdown files
-- **Static pages** (about, privacy) follow Jekyll page conventions
+- **Blog posts**: Create markdown files in `_posts/` with `YYYY-MM-DD-title.md` naming
+- **Pages**: Create markdown files in root with YAML front matter
+- **Assets**: Add CSS, images, and static files to `assets/` directory
 
 ### File Patterns
-- **Posts**: Follow Jekyll's `YYYY/MM/DD/post-title.html` URL structure
-- **Assets**: CSS uses Minima theme conventions (`main.css`, social icons SVG)
-- **Metadata**: All pages include Jekyll SEO tag and structured data
+- **Posts**: Use Jekyll front matter with layout, title, date, categories
+- **Pages**: Use `permalink` in front matter for custom URLs
+- **Styling**: Minima theme with custom CSS in `assets/main.scss`
 
-### Styling Approach
-- Uses **Minima theme** CSS patterns
-- Responsive design with mobile-first approach
-- Social media integration (GitHub, Twitter, LinkedIn)
-- Custom 404 page styling
+### Local Development
+```bash
+bundle install          # Install dependencies
+bundle exec jekyll serve # Run local server on http://localhost:4000
+bundle exec jekyll build # Build static site to _site/
+```
 
 ## Common Tasks
 
 ### Adding New Posts
-1. Create markdown file in private Azure Repos (not here)
-2. Azure Pipeline will automatically build and deploy
-3. Verify deployment via GitHub Pages build status
+1. Create markdown file in `_posts/` with format: `YYYY-MM-DD-title.md`
+2. Add Jekyll front matter (layout, title, date, categories)
+3. Commit and push to master - GitHub Actions will build and deploy
 
 ### Updating Site Structure
-- Modify layouts/includes in private Azure Repos source
-- CSS changes go in source `assets/` directory
-- Navigation updates in source `_includes/header.html`
+- Modify `_config.yml` for site-wide settings
+- Update `Gemfile` for Jekyll plugins and dependencies
+- Create custom layouts in `_layouts/` directory
+- Override theme styles in `assets/main.scss`
 
 ### Debugging Builds
-- Check Azure Pipeline logs for Jekyll build errors
-- Verify GitHub Pages build status (pipeline includes API check)
-- Common issues: missing dependencies, invalid YAML frontmatter
+- Check GitHub Actions logs in the Actions tab
+- Verify Jekyll build locally with `bundle exec jekyll build`
+- Common issues: missing dependencies, invalid YAML front matter
 
 ## Integration Points
 
 - **GitHub Pages**: Automatic deployment on push to master
-- **Azure DevOps**: Source repository and build pipeline
+- **GitHub Actions**: Build and deployment pipeline
 - **Jekyll SEO Plugin**: Automatic meta tags and structured data
 - **RSS Feed**: Auto-generated at `/feed.xml`
 
