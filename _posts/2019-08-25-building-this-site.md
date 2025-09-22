@@ -3,7 +3,12 @@ layout: post
 title: "How I built this site..."
 date: 2019-08-25 00:00:00 -0700
 categories: jekyll update
+published: false
+archived: true
+archive_reason: "This post contains outdated information about the original site setup"
 ---
+
+> **Archive Notice:** This post has been archived as it contains outdated setup information. The current site uses a different deployment approach. Archived on {{ site.time | date: "%B %d, %Y" }}.
 
 ## Work-in-Progress
 
