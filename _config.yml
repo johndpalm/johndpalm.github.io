@@ -17,6 +17,7 @@ plugins:
 # Pages to show in the header navigation (Minima)
 header_pages:
   - about.md
+  - archive.md
 
 # Sass/Dart Sass options
 sass:
