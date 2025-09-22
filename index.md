@@ -42,12 +42,6 @@ description: "Software developer specializing in Microsoft DevOps, cloud solutio
   </div>
 </div>
 
-## Featured Projects
-
-- **ByteSage LMS** - AI-powered learning management system with intelligent content delivery
-- **OutPlay** - Cross-platform mobile application built with modern frameworks  
-- **thisninjaAlpha** - AI-driven development tools for accelerating software delivery
-
 <div class="project-links">
   <a href="https://github.com/johndpalm">🐙 GitHub</a>
   <a href="https://www.linkedin.com/in/johndpalmer">💼 LinkedIn</a>

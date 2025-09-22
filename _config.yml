@@ -16,6 +16,7 @@ plugins:
 
 # Pages to show in the header navigation (Minima)
 header_pages:
+  - projects.md
   - about.md
   - archive.md
 
