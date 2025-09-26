@@ -1,7 +1,6 @@
 ---
 ---
 
-@use "sass:color";
 @import "minima";
 
 // Only the main Sass file needs front matter (the dashes are enough)
@@ -70,7 +69,7 @@
     transition: background-color 0.3s ease;
     
     &:hover {
-      background: color.adjust($brand-color, $lightness: -10%);
+      background: darken($brand-color, 10%);
       color: white;
     }
   }
@@ -115,7 +114,7 @@ pre, code {
     color: $brand-color;
     text-decoration: none;
     &:hover {
-      color: color.adjust($brand-color, $lightness: -10%);
+      color: darken($brand-color, 10%);
       text-decoration: underline;
     }
   }
@@ -180,7 +179,7 @@ pre, code {
       color: #66b3ff;
       
       &:hover {
-        color: color.adjust(#66b3ff, $lightness: 15%);
+        color: lighten(#66b3ff, 15%);
       }
     }
   }
@@ -198,7 +197,7 @@ pre, code {
     background: #66b3ff;
     
     &:hover {
-      background: color.adjust(#66b3ff, $lightness: 15%);
+      background: lighten(#66b3ff, 15%);
     }
   }
   
@@ -282,7 +281,7 @@ pre, code {
       color: inherit;
       
       &:hover {
-        color: color.adjust($brand-color, $lightness: -10%);
+        color: darken($brand-color, 10%);
       }
     }
   }
@@ -393,7 +392,7 @@ pre, code {
       transition: background-color 0.3s ease;
       
       &:hover {
-        background: color.adjust($brand-color, $lightness: -10%);
+        background: darken($brand-color, 10%);
         color: white;
       }
     }
@@ -409,7 +408,7 @@ pre, code {
       font-weight: 500;
       
       &:hover {
-        color: color.adjust($brand-color, $lightness: -10%);
+        color: darken($brand-color, 10%);
         text-decoration: underline;
       }
     }
